@@ -5,6 +5,7 @@ import com.example.sb_security_jwt.app.member.repository.MemberRepository;
 import com.example.sb_security_jwt.app.security.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,12 +53,17 @@ public class MemberService {
     }
 
     @Cacheable("key1")
-    public int getCacheInt() {
+    public int getCachedInt() {
         System.out.println("getCacheInt 호출됨");
         return 5;
     }
 
     @CacheEvict("key1")
     public void deleteCacheKey1() {
+    }
+
+    @CachePut("key1")
+    public int putCacheKey1() {
+        return 10;
     }
 }

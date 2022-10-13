@@ -20,12 +20,12 @@ public class CacheTests {
     @Test
     @DisplayName("캐시 사용")
     void t1() throws Exception {
-        int rs = memberService.getCacheInt();
+        int rs = memberService.getCachedInt();
 
         assertThat(rs).isGreaterThan(0);
         System.out.println(rs);
 
-        rs = memberService.getCacheInt();
+        rs = memberService.getCachedInt();
 
         assertThat(rs).isGreaterThan(0);
         System.out.println(rs);
@@ -34,15 +34,30 @@ public class CacheTests {
     @Test
     @DisplayName("캐시 삭제")
     void t2() throws Exception {
-        int rs = memberService.getCacheInt();
+        int rs = memberService.getCachedInt();
         System.out.println(rs);
 
-        rs = memberService.getCacheInt();
+        rs = memberService.getCachedInt();
         System.out.println(rs);
 
         memberService.deleteCacheKey1();
 
-        rs = memberService.getCacheInt();
+        rs = memberService.getCachedInt();
+        System.out.println(rs);
+    }
+
+    @Test
+    @DisplayName("캐시 수정")
+    void t3() throws Exception {
+        int rs = memberService.getCachedInt();
+        System.out.println(rs);
+
+        rs = memberService.getCachedInt();
+        System.out.println(rs);
+
+        memberService.putCacheKey1();
+
+        rs = memberService.getCachedInt();
         System.out.println(rs);
     }
 }
