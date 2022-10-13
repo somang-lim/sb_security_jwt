@@ -33,6 +33,8 @@ public class Member extends BaseEntity {
     @JsonIgnore
     private String password;
     private String email;
+    @Column(columnDefinition = "TEXT")
+    private String accessToken;
 
     public Member(long id) {
         super(id);
