@@ -1,6 +1,6 @@
 package com.example.sb_security_jwt.app.cacheTest.service;
 
-import com.example.app.cacheTest.dto.Person;
+import com.example.sb_security_jwt.app.cacheTest.dto.Person;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;

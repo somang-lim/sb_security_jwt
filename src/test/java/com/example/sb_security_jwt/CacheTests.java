@@ -1,6 +1,6 @@
 package com.example.sb_security_jwt;
 
-import com.example.app.cacheTest.dto.Person;
+import com.example.sb_security_jwt.app.cacheTest.dto.Person;
 import com.example.sb_security_jwt.app.cacheTest.service.CacheTestService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,12 +1,11 @@
-package com.example.app.cacheTest.dto;
+package com.example.sb_security_jwt.app.cacheTest.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 
 @AllArgsConstructor
 @Data
 public class Person {
-    private long id;
+    private int id;
     private String name;
 }
