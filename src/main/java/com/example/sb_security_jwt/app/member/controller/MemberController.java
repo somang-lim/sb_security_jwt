@@ -1,7 +1,9 @@
 package com.example.sb_security_jwt.app.member.controller;
 
+import com.example.sb_security_jwt.app.base.dto.RsData;
 import com.example.sb_security_jwt.app.member.entity.Member;
 import com.example.sb_security_jwt.app.member.service.MemberService;
+import com.example.sb_security_jwt.app.util.Util;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -21,27 +23,25 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<RsData> login(@RequestBody LoginDto loginDto) {
         if (loginDto.isNotValid()) {
-            return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
+            return Util.spring.responseEntityOf(RsData.of("F-1", "로그인 정보가 올바르지 않습니다."));
         }
 
         Member member = memberService.findByUsername(loginDto.getUsername()).orElse(null);
 
         if (member == null) {
-            return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
+            return Util.spring.responseEntityOf(RsData.of("F-2", "일치하는 회원이 존재하지 않습니다."));
         }
 
         if (passwordEncoder.matches(loginDto.getPassword(), member.getPassword()) == false) {
-            return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
+            return Util.spring.responseEntityOf(RsData.of("F-3", "비밀번호가 일치하지 않습니다."));
         }
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authentication", "JWT키");
+        headers.set("Authentication", "JWT_Access_Token");
 
-        String body = "username : %s, password : %s".formatted(loginDto.getUsername(), loginDto.getPassword());
-
-        return new ResponseEntity<>(body, headers, HttpStatus.OK);
+        return Util.spring.responseEntityOf(RsData.of("S-1", "로그인 성공, Access Token을 발급합니다."), headers);
     }
 
     @Data
