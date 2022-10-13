@@ -30,4 +30,19 @@ public class CacheTests {
         assertThat(rs).isGreaterThan(0);
         System.out.println(rs);
     }
+
+    @Test
+    @DisplayName("캐시 삭제")
+    void t2() throws Exception {
+        int rs = memberService.getCacheInt();
+        System.out.println(rs);
+
+        rs = memberService.getCacheInt();
+        System.out.println(rs);
+
+        memberService.deleteCacheKey1();
+
+        rs = memberService.getCacheInt();
+        System.out.println(rs);
+    }
 }
