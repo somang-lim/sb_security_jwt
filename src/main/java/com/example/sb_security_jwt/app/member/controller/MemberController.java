@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
@@ -40,11 +42,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<RsData> login(@RequestBody LoginDto loginDto) {
-        if (loginDto.isNotValid()) {
-            return Util.spring.responseEntityOf(RsData.of("F-1", "로그인 정보가 올바르지 않습니다."));
-        }
-
+    public ResponseEntity<RsData> login(@Valid @RequestBody LoginDto loginDto) {
         Member member = memberService.findByUsername(loginDto.getUsername()).orElse(null);
 
         if (member == null) {
