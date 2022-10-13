@@ -1,11 +1,11 @@
 package com.example.sb_security_jwt.app.member.controller;
 
 import com.example.sb_security_jwt.app.base.dto.RsData;
+import com.example.sb_security_jwt.app.member.dto.request.LoginDto;
 import com.example.sb_security_jwt.app.member.entity.Member;
 import com.example.sb_security_jwt.app.member.service.MemberService;
 import com.example.sb_security_jwt.app.security.entity.MemberContext;
 import com.example.sb_security_jwt.app.util.Util;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +28,15 @@ public class MemberController {
     @GetMapping("/test")
     public String test(@AuthenticationPrincipal MemberContext memberContext) {
         return "안녕" + memberContext;
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<RsData> me(@AuthenticationPrincipal MemberContext memberContext) {
+        if (memberContext == null) {
+            return Util.spring.responseEntityOf(RsData.failOf(null));
+        }
+
+        return Util.spring.responseEntityOf(RsData.successOf(memberContext));
     }
 
     @PostMapping("/login")
@@ -59,15 +68,5 @@ public class MemberController {
                         )
                 ),
                 Util.spring.httpHeadersOf("Authentication", accessToken));
-    }
-
-    @Data
-    public static class LoginDto {
-        private String username;
-        private String password;
-
-        public boolean isNotValid() {
-            return username == null || password == null || username.trim().length() == 0 || password.trim().length() == 0;
-        }
     }
 }
