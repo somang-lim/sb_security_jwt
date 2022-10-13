@@ -4,10 +4,12 @@ import com.example.sb_security_jwt.app.member.entity.Member;
 import com.example.sb_security_jwt.app.member.repository.MemberRepository;
 import com.example.sb_security_jwt.app.security.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -47,5 +49,10 @@ public class MemberService {
 
     public boolean verifyWithWhiteList(Member member, String token) {
         return member.getAccessToken().equals(token);
+    }
+
+    @Cacheable("member")
+    public Member getByUsername__cached(String username) {
+        return findByUsername(username).orElse(null);
     }
 }
