@@ -1,5 +1,6 @@
 package com.example.sb_security_jwt.app.member.service;
 
+import com.example.sb_security_jwt.app.AppConfig;
 import com.example.sb_security_jwt.app.member.entity.Member;
 import com.example.sb_security_jwt.app.member.repository.MemberRepository;
 import com.example.sb_security_jwt.app.security.jwt.JwtProvider;
@@ -56,5 +57,12 @@ public class MemberService {
         Member member = findByUsername(username).orElse(null);
 
         return member.toMap();
+    }
+
+    public Member getByUsername__cached(String username) {
+        MemberService thisObj = (MemberService) AppConfig.getContext().getBean("memberService");
+        Map<String, Object> memberMap = thisObj.getMemberMapByUsername__cached(username);
+
+        return Member.fromMap(memberMap);
     }
 }
