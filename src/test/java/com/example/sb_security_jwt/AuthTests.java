@@ -79,4 +79,37 @@ public class AuthTests {
         assertThat(authentication).isNotEmpty();
     }
 
+    @Test
+    @DisplayName("POST /member/login 호출할 때 username이나 password 를 누락하면 400")
+    void t3() throws Exception {
+        // When
+        ResultActions resultActions = mvc
+                .perform(post("/member/login")
+                        .content("""
+                                {
+                                    "username": "",
+                                    "password": "1234"
+                                }
+                                """.stripIndent())
+                        .contentType(new MediaType(APPLICATION_JSON, UTF_8))
+                )
+                .andDo(print());
+
+        resultActions
+                .andExpect(status().is4xxClientError());
+
+        resultActions = mvc
+                .perform(post("/member/login")
+                        .content("""
+                                {
+                                    "username": "user1",
+                                    "password": ""
+                                }
+                                """.stripIndent())
+                        .contentType(new MediaType(APPLICATION_JSON, UTF_8))
+                )
+                .andDo(print());
+
+        resultActions.andExpect(status().is4xxClientError());
+    }
 }
