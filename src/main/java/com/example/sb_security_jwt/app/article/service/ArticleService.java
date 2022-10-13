@@ -1,5 +1,6 @@
 package com.example.sb_security_jwt.app.article.service;
 
+import com.example.sb_security_jwt.app.article.dto.request.ArticleModifyDto;
 import com.example.sb_security_jwt.app.article.entity.Article;
 import com.example.sb_security_jwt.app.article.repository.ArticleRepository;
 import com.example.sb_security_jwt.app.member.entity.Member;
@@ -41,5 +42,16 @@ public class ArticleService {
 
     public boolean actorCanDelete(MemberContext memberContext, Article article) {
         return memberContext.getId() == article.getAuthor().getId();
+    }
+
+    public boolean actorCanModify(MemberContext memberContext, Article article) {
+        return memberContext.getId() == article.getAuthor().getId();
+    }
+
+    public void modify(Article article, ArticleModifyDto articleModifyDto) {
+        article.setSubject(articleModifyDto.getSubject());
+        article.setContent(articleModifyDto.getContent());
+
+        articleRepository.save(article);
     }
 }
