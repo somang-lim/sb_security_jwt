@@ -3,12 +3,15 @@ package com.example.sb_security_jwt.app.member.controller;
 import com.example.sb_security_jwt.app.base.dto.RsData;
 import com.example.sb_security_jwt.app.member.entity.Member;
 import com.example.sb_security_jwt.app.member.service.MemberService;
+import com.example.sb_security_jwt.app.security.entity.MemberContext;
 import com.example.sb_security_jwt.app.util.Util;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
+
+    @GetMapping("/test")
+    public String test(@AuthenticationPrincipal MemberContext memberContext) {
+        return "안녕" + memberContext;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<RsData> login(@RequestBody LoginDto loginDto) {
