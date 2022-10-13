@@ -1,5 +1,6 @@
 package com.example.sb_security_jwt;
 
+import com.example.app.cacheTest.dto.Person;
 import com.example.sb_security_jwt.app.cacheTest.service.CacheTestService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -72,5 +73,20 @@ public class CacheTests {
 
         rs = cacheTestService.plus(10, 20);
         System.out.println(rs);
+    }
+
+    @Test
+    @DisplayName("레퍼런스 매개변수")
+    void t5() throws Exception {
+        Person p1 = new Person(1, "홍길동1");
+        Person p2 = new Person(1, "홍길동2");
+
+        System.out.println(p1.equals(p2));
+
+        String personName = cacheTestService.getName(p1, 5);
+        System.out.println(personName);
+
+        personName = cacheTestService.getName(p2, 10);
+        System.out.println(personName);
     }
 }
